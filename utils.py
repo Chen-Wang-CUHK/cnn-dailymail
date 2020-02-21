@@ -47,16 +47,19 @@ def write_to_tar(dial_file, sum_file, out_file, makevocab=False, min_src_len=0, 
     logger.info("Total number of data: {}".format(num_stories))
 
     with tarfile.open(out_file, 'w') as writer:
-        for idx, (dial, summ) in enumerate(zip(dial_lines, sum_lines)):
-            if idx % 1000 == 0:
-                logger.info("Writing story {} of {}; {:.2f} percent done".format(
-                    idx, num_stories, float(idx)*100.0/float(num_stories)))
+        idx = -1
+        for dial, summ in zip(dial_lines, sum_lines):
             # filter the data sample whose dialogue length is less than min_src_len
             if min_src_len > 0 and len(dial.strip().split()) < min_src_len:
                 continue
             # filter the data sample whose summary length is less than min_sum_len
             if min_sum_len > 0 and len(summ.strip().split()) < min_sum_len:
                 continue
+
+            idx = idx + 1
+            if idx % 1000 == 0:
+                logger.info("Writing story {} of {}; {:.2f} percent done".format(
+                    idx, num_stories, float(idx)*100.0/float(num_stories)))
 
             # Get the strings to write to .bin file
             # article_sents, abstract_sents = get_art_abs(story_file)
