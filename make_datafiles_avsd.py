@@ -8,9 +8,9 @@ if __name__ == '__main__':
     dataset = "AVSD"
     parser = argparse.ArgumentParser(description="make_datafiles_{}.py".format(dataset))
     parser.add_argument("--data_path", "-data_path", type=str,
-                        default="/home/rickywchen/code/DialogueSum/dataset/{}/1_preprocessed_from_raw".format(dataset))
+                        default="/apdcephfs/share_916081/rickywchen/code/DialogueSum/dataset/{}/1_preprocessed_from_raw".format(dataset))
     parser.add_argument("--save_path", "-save_path", type=str,
-                        default="/home/rickywchen/code/DialogueSum/dataset/{}/3_cnn_daily_style_processed".format(dataset))
+                        default="/apdcephfs/share_916081/rickywchen/code/DialogueSum/dataset/{}/3_cnn_daily_style_processed".format(dataset))
     parser.add_argument("--min_src_len", "-min_src_len", type=int, default=15)
     parser.add_argument("--min_sum_len", "-min_sum_len", type=int, default=1)
     parser.add_argument("--log_file", "-log_file", type=str,
