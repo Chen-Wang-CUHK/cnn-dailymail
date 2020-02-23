@@ -13,8 +13,10 @@ if __name__ == '__main__':
                         default="/apdcephfs/share_916081/rickywchen/code/DialogueSum/dataset/{}/3_cnn_daily_style_processed".format(dataset))
     parser.add_argument("--min_src_len", "-min_src_len", type=int, default=15)
     parser.add_argument("--min_sum_len", "-min_sum_len", type=int, default=1)
+    parser.add_argument("--add_other_names_to_utr", "-add_other_names_to_utr", action='store_true')
     parser.add_argument("--log_file", "-log_file", type=str,
                         default="logs/{}_cnn_daily_style_process_log.txt".format(dataset))
+
     opts = parser.parse_args()
 
     # Create some new directories
@@ -30,15 +32,18 @@ if __name__ == '__main__':
     write_to_tar(
         dial_file=os.path.join(opts.data_path, 'SAMSum_dialogue_skip_filter_srcTrunc400_tgtTrunc100_spacy_test.txt'),
         sum_file=os.path.join(opts.data_path, 'SAMSum_summary_skip_filter_srcTrunc400_tgtTrunc100_spacy_test.txt'),
-        out_file=os.path.join(opts.save_path, "test.tar"))
+        out_file=os.path.join(opts.save_path, "test.tar"),
+        add_others_names=opts.add_other_names_to_utr)
     write_to_tar(
         dial_file=os.path.join(opts.data_path, 'SAMSum_dialogue_skip_filter_srcTrunc400_tgtTrunc100_spacy_valid.txt'),
         sum_file=os.path.join(opts.data_path, 'SAMSum_summary_skip_filter_srcTrunc400_tgtTrunc100_spacy_valid.txt'),
-        out_file=os.path.join(opts.save_path, "val.tar"))
+        out_file=os.path.join(opts.save_path, "val.tar"),
+        add_others_names=opts.add_other_names_to_utr)
     write_to_tar(
         dial_file=os.path.join(opts.data_path, 'SAMSum_dialogue_skip_filter_srcTrunc400_tgtTrunc100_spacy_train.txt'),
         sum_file=os.path.join(opts.data_path, 'SAMSum_summary_skip_filter_srcTrunc400_tgtTrunc100_spacy_train.txt'),
         out_file=os.path.join(opts.save_path, "train.tar"),
         makevocab=True,
         min_src_len=opts.min_src_len,
-        min_sum_len=opts.min_sum_len)
+        min_sum_len=opts.min_sum_len,
+        add_others_names=opts.add_other_names_to_utr)

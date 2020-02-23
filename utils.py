@@ -31,7 +31,24 @@ def init_logger(log_file=None, log_file_level=logging.NOTSET):
     return logger
 
 
-def write_to_tar(dial_file, sum_file, out_file, makevocab=False, min_src_len=0, min_sum_len=0):
+def add_others_names_func(utr_list):
+    # collect the names of all the speakers
+    names = []
+    for utr in utr_list:
+        name = utr.split(':')[0].strip()
+        if name not in names:
+            names.append(name)
+
+    enhanced_utr_list = []
+    for utr in utr_list:
+        name = utr.split(':')[0].strip()
+        other_names = [n for n in names if n != name] + ['.']
+        enhanced_utr = utr + ' {} '.format(UTR_SPLITTER) + ' '.join(other_names)
+        enhanced_utr_list.append(enhanced_utr)
+    return enhanced_utr_list
+
+
+def write_to_tar(dial_file, sum_file, out_file, makevocab=False, min_src_len=0, min_sum_len=0, add_others_names=False):
     """Reads the tokenized dialogue file and summary file writes them as the story and abstract to a out_file.
     """
     logger.info("Making bin file for {} and {}...".format(dial_file, sum_file))
@@ -64,6 +81,9 @@ def write_to_tar(dial_file, sum_file, out_file, makevocab=False, min_src_len=0, 
             # Get the strings to write to .bin file
             # article_sents, abstract_sents = get_art_abs(story_file)
             article_sents = [line.strip() for line in dial.split(UTR_SPLITTER) if len(line.strip()) != 0]
+            if add_others_names:
+                assert "SAMSum" in dial_file
+                article_sents = add_others_names_func(article_sents)
             abstract_sents = [summ.strip()]
 
             # Write to JSON file
