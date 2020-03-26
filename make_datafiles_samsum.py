@@ -19,6 +19,9 @@ if __name__ == '__main__':
 
     opts = parser.parse_args()
 
+    if opts.add_other_names_to_utr:
+        opts.save_path = os.path.join(opts.save_path, 'add_other_names')
+
     # Create some new directories
     if not os.path.exists(opts.save_path):
         os.makedirs(opts.save_path)
