@@ -1,8 +1,5 @@
-import numpy
 import spacy
-# import neuralcoref
 from spacy.tokenizer import Tokenizer
-from onmt.utils.logging import logger
 
 SENT_END_TOKENS = ['.', ',', '?', '!', ';']
 COREF_TEXT_TOKEN_NUM_TH = 4
