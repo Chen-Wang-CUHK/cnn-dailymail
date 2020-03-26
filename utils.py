@@ -7,7 +7,9 @@ import tarfile
 import io
 import pickle as pkl
 
+from my_spacynlp import SpacyNLP
 
+MySpacyNLP = SpacyNLP(whitespace_tokenizer_for_tokenizer=True)
 UTR_SPLITTER = '|'
 
 logger = logging.getLogger()
@@ -84,7 +86,10 @@ def write_to_tar(dial_file, sum_file, out_file, makevocab=False, min_src_len=0, 
             if add_others_names:
                 assert "SAMSum" in dial_file
                 article_sents = add_others_names_func(article_sents)
-            abstract_sents = [summ.strip()]
+
+            # split the summary into sentences
+            abstract_sents = MySpacyNLP.sent_tokenize(summ.strip(), use_space_split_tokens_in_sent=True)
+            abstract_sents = [' '.join(sent).strip() for sent in abstract_sents]
 
             # Write to JSON file
             js_example = {}
